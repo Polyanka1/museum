@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/custom_app_bar.dart';
-import '../widgets/language_bottom_sheet.dart'; // ← импортируем фрагмент
+import '../widgets/language_bottom_sheet.dart';
+import 'contact_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  final VoidCallback? onContactsSelected;
 
-  // открытие внешней ссылки
+  const SettingsScreen({super.key, this.onContactsSelected});
+
   Future<void> _openExternalLink(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -16,7 +18,6 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
-  // показ фрагмента выбора языка
   void _showLanguageBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -38,7 +39,15 @@ class SettingsScreen extends StatelessWidget {
             context,
             title: 'Контакты',
             onTap: () {
-              Navigator.pushNamed(context, '/contacts');
+              if (onContactsSelected != null) {
+                onContactsSelected!();
+              } else {
+                // Fallback на случай если callback не передан
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ContactsScreen()),
+                );
+              }
             },
           ),
           _buildSettingsButton(

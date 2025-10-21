@@ -17,7 +17,7 @@ class ExcursionDetail extends StatelessWidget {
       appBar: CustomAppBar(
         screenTitle: title,
         showBackButton: true,
-        onBackPressed: onBackPressed, // Передаем callback для возврата
+        onBackPressed: onBackPressed,
       ),
       backgroundColor: const Color(0xFFF2F2F2),
       body: Center(

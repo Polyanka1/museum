@@ -5,6 +5,7 @@ import 'three_d_screen.dart';
 import 'video_screen.dart';
 import 'settings_screen.dart';
 import 'excursion_detail.dart';
+import 'contact_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -30,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
       ExcursionList(onExcursionSelected: _openExcursionDetail),
       const ThreeDScreen(),
       const VideoScreen(),
-      const SettingsScreen(),
+      SettingsScreen(onContactsSelected: _openContacts),
     ];
   }
 
@@ -39,12 +40,18 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _currentDetailPage = ExcursionDetail(
         title: title,
-        onBackPressed: _closeExcursionDetail,
+        onBackPressed: _closeDetailPage,
       );
     });
   }
 
-  void _closeExcursionDetail() {
+  void _openContacts() {
+    setState(() {
+      _currentDetailPage = ContactsScreen(onBackPressed: _closeDetailPage); // ← ИЗМЕНЕНО: добавлен callback
+    });
+  }
+
+  void _closeDetailPage() {
     setState(() {
       _currentDetailPage = null;
     });
@@ -64,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.white,
         onTap: (index) {
           if (_currentDetailPage != null) {
-            _closeExcursionDetail();
+            _closeDetailPage();
           }
           setState(() => _currentIndex = index);
         },
