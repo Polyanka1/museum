@@ -13,30 +13,27 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: size.height * 0.2),
-
-            // Центрированный блок с логотипом, линией и текстом
             Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center, // выравнивание по центру
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/logo.jpg',
-                    width: size.width * 0.28,  // увеличиваем логотип
+                    width: size.width * 0.28,
                     height: size.width * 0.4,
                   ),
-                  // линия по высоте текста, отступ между логотипом и линией убран
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 1, // тонкая линия
-                        height: 36, // высота заголовка + подзаголовка (пример)
+                        width: 1,
+                        height: 36,
                         color: const Color(0xFF434044),
                       ),
                     ],
                   ),
-                  const SizedBox(width: 12), // небольшое расстояние между линией и текстом
+                  const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -44,7 +41,7 @@ class SplashScreen extends StatelessWidget {
                       Text(
                         'Интерактивный',
                         style: TextStyle(
-                          fontSize: 20, // заголовок
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF004C91),
                           fontFamily: 'Times New Roman',
@@ -53,7 +50,7 @@ class SplashScreen extends StatelessWidget {
                       Text(
                         'мемориальный музей\nП. М. Машерова',
                         style: TextStyle(
-                          fontSize: 16, // подзаголовок
+                          fontSize: 16,
                           color: Colors.black87,
                           fontFamily: 'Times New Roman',
                         ),

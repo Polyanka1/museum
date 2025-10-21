@@ -4,6 +4,7 @@ import 'home_screen.dart';
 import 'three_d_screen.dart';
 import 'video_screen.dart';
 import 'settings_screen.dart';
+import 'excursion_detail.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,28 +15,59 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  Widget? _currentDetailPage;
 
-  final List<Widget> _pages = const [
-    HomeScreen(),
-    ExcursionList(),
-    ThreeDScreen(),
-    VideoScreen(),
-    SettingsScreen(),
-  ];
+  late final List<Widget> _pages; // Объявляем позже
 
   final Color _iconColor = const Color(0xFF235D8E);
 
   @override
+  void initState() {
+    super.initState();
+
+    _pages = [
+      const HomeScreen(),
+      ExcursionList(onExcursionSelected: _openExcursionDetail),
+      const ThreeDScreen(),
+      const VideoScreen(),
+      const SettingsScreen(),
+    ];
+  }
+
+  // Функция для открытия деталей экскурсии
+  void _openExcursionDetail(String title) {
+    setState(() {
+      _currentDetailPage = ExcursionDetail(
+        title: title,
+        onBackPressed: _closeExcursionDetail,
+      );
+    });
+  }
+
+  void _closeExcursionDetail() {
+    setState(() {
+      _currentDetailPage = null;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final Widget currentBody = _currentDetailPage ?? _pages[_currentIndex];
+
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: currentBody,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
-        showSelectedLabels: false, // убираем лейблы
-        showUnselectedLabels: false, // убираем лейблы
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         backgroundColor: Colors.white,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: (index) {
+          if (_currentDetailPage != null) {
+            _closeExcursionDetail();
+          }
+          setState(() => _currentIndex = index);
+        },
         items: [
           _buildNavItem(Icons.home_outlined, 0),
           _buildNavItem(Icons.headphones_outlined, 1),
@@ -60,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
             : null,
         child: Icon(
           iconData,
-          size: 25, // увеличиваем размер
+          size: 25,
           color: _iconColor,
         ),
       ),
