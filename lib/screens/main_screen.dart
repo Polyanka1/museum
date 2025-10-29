@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'excursion_list.dart';
 import 'home_screen.dart';
-import 'three_d_screen.dart';
+import 'three_d_list.dart';
 import 'video_screen.dart';
 import 'settings_screen.dart';
 import 'excursion_detail.dart';
 import 'contact_screen.dart';
+import 'three_d_detail.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -29,13 +30,13 @@ class _MainScreenState extends State<MainScreen> {
     _pages = [
       const HomeScreen(),
       ExcursionList(onExcursionSelected: _openExcursionDetail),
-      const ThreeDScreen(),
+      ThreeDListScreen(onModelSelected: _openThreeDDetail),
       const VideoScreen(),
       SettingsScreen(onContactsSelected: _openContacts),
     ];
   }
 
-  // Функция для открытия деталей экскурсии
+  // Функции для открытия
   void _openExcursionDetail(String title) {
     setState(() {
       _currentDetailPage = ExcursionDetail(
@@ -51,6 +52,18 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void _openThreeDDetail(String title, String description, String modelPath) {
+    setState(() {
+      _currentDetailPage = ThreeDDetailScreen(
+        title: title,
+        description: description,
+        modelPath: modelPath,
+        onBackPressed: _closeDetailPage,
+      );
+    });
+  }
+
+  // Функция для открытия
   void _closeDetailPage() {
     setState(() {
       _currentDetailPage = null;
